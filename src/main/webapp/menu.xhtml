@@ -47,7 +47,7 @@
                             </p:column>
                         </p:dataTable>
                         <h2>#{msg.menuMySelection}</h2>
-                        <p:dataTable id="order" value="#{orderPizza.order.orderEntriesAsList}" var="orderEntry"
+                        <p:dataTable id="order" value="#{orderPizza.order.orderEntriesAsCollection}" var="orderEntry"
                                      emptyMessage="#{msg.menuOrderEmptyMessage}">
 
                             <p:column>
@@ -85,7 +85,7 @@
                         <br/>
                         <p:commandButton action="#{orderPizza.startOrder()}" value="#{msg.menuOrder}"
                                          id="orderButton"
-                                         disabled="#{orderPizza.order.orderEntriesAsList.isEmpty()}"/>
+                                         disabled="#{orderPizza.order.orderEntriesAsCollection.isEmpty()}"/>
                     </h:form>
                 </ui:define>
             </ui:composition>

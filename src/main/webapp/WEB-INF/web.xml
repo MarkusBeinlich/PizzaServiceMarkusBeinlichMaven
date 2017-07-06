@@ -23,7 +23,7 @@
     </welcome-file-list>
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>realm</realm-name>
+        <realm-name>fileRealm</realm-name>
         <form-login-config>
             <form-login-page>/index.xhtml</form-login-page>
             <form-error-page>/error.xhtml</form-error-page>
@@ -37,4 +37,7 @@
         <description/>
         <role-name>customer</role-name>
     </security-role>
+    <listener>
+        <listener-class>de.beinlich.markus.pizzaservice.util.ActiveSessionsListener</listener-class>
+    </listener>
 </web-app>

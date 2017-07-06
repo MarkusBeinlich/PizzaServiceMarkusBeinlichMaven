@@ -36,7 +36,7 @@ public class Order implements Serializable{
         orderEntries = new HashMap<>();
     }
 
-    public Collection<OrderEntry> getOrderEntriesAsList() {
+    public Collection<OrderEntry> getOrderEntriesAsCollection() {
         return orderEntries.values();
     }
 

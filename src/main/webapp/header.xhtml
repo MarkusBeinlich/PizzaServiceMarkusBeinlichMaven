@@ -25,11 +25,12 @@
 
 
 
-                <p:menuitem value="QuitDe" url="http://www.primefaces.org" icon="ui-icon-close" />
+                <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
+                <p:menuitem value="Admin" rendered="true" url="/admin.xhtml" icon="ui-icon-wrench" />
 
                 <f:facet name="options">
                     <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
-                        <p:graphicImage name="/demo/images/login.png" />
+                        <h:outputText value="Login" />
                     </h:outputLink>
 
                     <p:growl id="growl" sticky="true" showDetail="true" life="3000" />

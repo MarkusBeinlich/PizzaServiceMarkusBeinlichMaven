@@ -1,8 +1,10 @@
 package de.beinlich.markus.pizzaservice.controller;
 
 import de.beinlich.markus.pizzaservice.model.*;
+import de.beinlich.markus.pizzaservice.util.ActiveSessionsListener;
 import java.io.Serializable;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
@@ -30,6 +32,7 @@ public class OrderPizza implements Serializable {
     private String time;
     private Menu menu;
     private Boolean submitted;
+
     @Inject
     private Testctrl testctrl;
 
@@ -80,7 +83,7 @@ public class OrderPizza implements Serializable {
     }
 
     public String startOrder() {
-        System.out.println("Wert des Test:::::"+testctrl.getTest());
+        System.out.println("Wert des Test:::::" + testctrl.getTest());
         return "toCustomer";
     }
 
@@ -164,5 +167,11 @@ public class OrderPizza implements Serializable {
     public void setSubmitted(Boolean submitted) {
         this.submitted = submitted;
     }
+
+    public Collection<HttpSession> getActiveSessionsAsCollection() {
+        Collection<HttpSession> sessions = ActiveSessionsListener.getActiveSessions().values();
+        return sessions;
+    }
+
 
 }
