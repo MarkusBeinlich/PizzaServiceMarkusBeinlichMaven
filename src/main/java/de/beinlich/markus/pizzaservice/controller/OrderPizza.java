@@ -9,7 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
+import javax.inject.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
@@ -30,6 +30,8 @@ public class OrderPizza implements Serializable {
     private String time;
     private Menu menu;
     private Boolean submitted;
+    @Inject
+    private Testctrl testctrl;
 
     public OrderPizza() {
         customer = new Customer();
@@ -78,6 +80,7 @@ public class OrderPizza implements Serializable {
     }
 
     public String startOrder() {
+        System.out.println("Wert des Test:::::"+testctrl.getTest());
         return "toCustomer";
     }
 
@@ -87,7 +90,7 @@ public class OrderPizza implements Serializable {
     }
 
     public String customerEntered() {
-        return "customerEntered";
+        return "toConfirmation";
     }
 
     public void setIpAndSession(HttpServletRequest req) {

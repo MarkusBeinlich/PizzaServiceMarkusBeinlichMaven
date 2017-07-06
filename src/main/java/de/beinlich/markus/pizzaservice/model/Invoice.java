@@ -1,10 +1,13 @@
 package de.beinlich.markus.pizzaservice.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Invoice {
+public class Invoice implements Serializable{
+
+    private static final long serialVersionUID = -4255520141473338956L;
 
     private Customer customer;
     private List<OrderEntry> invoiceEntries;

@@ -1,9 +1,12 @@
 
 package de.beinlich.markus.pizzaservice.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class MenuItem {
+public class MenuItem implements Serializable {
+
+    private static final long serialVersionUID = 4017341755034502641L;
     private Integer menuItemId;
     private String name;
     private String description;

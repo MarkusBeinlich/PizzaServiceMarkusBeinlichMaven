@@ -1,10 +1,16 @@
 package de.beinlich.markus.pizzaservice.model;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.*;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import de.beinlich.markus.pizzaservice.dao.DaoOrder;
 import de.beinlich.markus.pizzaservice.dao.DaoOrderEntry;
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +21,9 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Order {
+public class Order implements Serializable{
+
+    private static final long serialVersionUID = 4994150745256346814L;
 
     private Customer customer;
     private Map<MenuItem, OrderEntry> orderEntries;

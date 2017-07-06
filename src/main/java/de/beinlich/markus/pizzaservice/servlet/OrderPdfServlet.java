@@ -17,12 +17,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  *
  * @author Schulung_IBB
  */
 @WebServlet(name = "myPdf", urlPatterns = "/generate/myPdf.pdf")
 public class OrderPdfServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      *
@@ -35,23 +38,24 @@ public class OrderPdfServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-
+//       HttpSession sess=req.getSession();
+//       OrderPizza op=(OrderPizza) sess.getAttribute("orderPizza");
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         try {
             resp.setContentType("application/pdf");
 
-            OutputStream os = resp.getOutputStream();
-            orderPizza.getOrder().createPdf().writeTo(os);
-            os.flush();
-            os.close();
+            try (OutputStream os = resp.getOutputStream()) {
+                orderPizza.getOrder().createPdf().writeTo(os);
+                os.flush();
+            }
 
-            //for ( PrintService s : PrintServiceLookup.lookupPrintServices( null, null ) )System.out.println( s.getName() );
         } catch (IOException ex) {
             Logger.getLogger(OrderPdfServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) {
         doGet(req, resp);
     }

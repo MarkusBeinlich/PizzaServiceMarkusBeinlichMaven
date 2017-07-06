@@ -1,8 +1,11 @@
 package de.beinlich.markus.pizzaservice.model;
 
-import de.beinlich.markus.pizzaservice.dao.*;
+import de.beinlich.markus.pizzaservice.dao.DaoCustomer;
+import java.io.Serializable;
 
-public class Customer {
+public class Customer implements Serializable {
+
+    private static final long serialVersionUID = -565390959945252363L;
     private Integer customerId;
     private String firstName;
     private String lastName;

@@ -12,30 +12,8 @@
     <h:body>
         <div id="container">
             <div id="header">
-                <h:form>  
-                    <p:growl id="messages"/>
-
-                    <p:menubar>
-                        <p:submenu label="File" icon="ui-icon-document">
-                            <p:submenu label="New" icon="ui-icon-contact">
-                                <p:menuitem value="Project" url="#" />
-                                <p:menuitem value="Other" url="#" />
-                            </p:submenu>
-                            <p:menuitem value="Open" url="#" />
-                            <p:separator />
-                            <p:menuitem value="Quit" url="#" />
-                        </p:submenu>
-
-
-
-                        <p:menuitem value="QuitDe" url="http://www.primefaces.org" icon="ui-icon-close" />
-
-                        <f:facet name="options">
-                            <p:commandButton action="#{signinController.gotoLogin()}" value="Login2" icon="ui-icon-person" />
-                        </f:facet>
-                    </p:menubar>
-                </h:form>
-                #{msg.templateHeader}
+                <ui:include src="/header.xhtml" />
+              
             </div>
             <div id="content">
                 <ui:insert name="content">

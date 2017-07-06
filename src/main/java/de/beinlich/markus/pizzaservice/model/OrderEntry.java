@@ -1,12 +1,15 @@
 package de.beinlich.markus.pizzaservice.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  *
  * @author Markus Beinlich
  */
-public class OrderEntry {
+public class OrderEntry implements Serializable{
+
+    private static final long serialVersionUID = -6948893238653679210L;
 
     private MenuItem menuItem;
     private int quantity;

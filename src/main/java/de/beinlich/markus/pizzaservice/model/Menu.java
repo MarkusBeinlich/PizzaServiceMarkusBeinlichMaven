@@ -1,10 +1,13 @@
 package de.beinlich.markus.pizzaservice.model;
 
 import de.beinlich.markus.pizzaservice.dao.*;
+import java.io.*;
 import java.util.List;
 
 
-public class Menu {
+public class Menu implements Serializable{
+
+    private static final long serialVersionUID = 9220765761231182677L;
 
     private List<MenuItem> menuItems;
 
