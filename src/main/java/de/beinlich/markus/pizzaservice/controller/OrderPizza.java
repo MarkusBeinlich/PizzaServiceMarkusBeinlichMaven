@@ -81,6 +81,11 @@ public class OrderPizza implements Serializable {
         return "toCustomer";
     }
 
+    public String login() {
+        System.out.println("-------------------login");
+        return "toLogin";
+    }
+
     public String customerEntered() {
         return "customerEntered";
     }

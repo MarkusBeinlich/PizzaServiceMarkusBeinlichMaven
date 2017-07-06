@@ -48,26 +48,31 @@ public class GConnection {
         return null;
      */
     public Connection getConnection() {
-             try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+//               try {
+//            Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-            //Context ctx = new InitialContext();
-            //Get a connection
-            //DataSource ds = (DataSource) ctx.lookup("jdbc/meine");//
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/pizza", "root", "secret");
-            //Connection conn = ds.getConnection();
+        Context ctx;
+        try {
+            ctx = new InitialContext();
+// Get a connection
+            DataSource ds = (DataSource) ctx.lookup("jdbc/pizza");//
+//            Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/pizza", "root", "secret");
+            Connection conn = ds.getConnection();
             //conn.setAutoCommit(false);
             //Connection  conn = ds.getConnection();
             return conn;
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GConnection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(GConnection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+//        }  catch (ClassNotFoundException ex) {
+//            Logger.getLogger(GConnection.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            Logger.getLogger(GConnection.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            Logger.getLogger(GConnection.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
             Logger.getLogger(GConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //Get 
         return null;
     }
 }

@@ -15,6 +15,13 @@
         </resource-bundle>
     </application>
     <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>toLogin</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
         <from-view-id>/menu.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>toCustomer</from-outcome>
