@@ -28,7 +28,8 @@
                 <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
                 <p:menuitem value="Admin" rendered="true" url="/admin.xhtml" icon="ui-icon-wrench" />
 
-                <f:facet name="options">
+                <p:menuitem value="Hello #{signinController.username}" rendered="true" url="#" />
+                <f:facet name="options" rendered="true">
                     <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
                         <h:outputText value="Login" />
                     </h:outputLink>
@@ -44,7 +45,7 @@
                             <p:password id="password" value="#{signinController.cust.password}" required="true" label="password" />
 
                             <f:facet name="footer">
-                                <p:commandButton value="Login" update="growl" actionListener="#{signinController.login()}"
+                                <p:commandButton value="Login" update="messages" actionListener="#{signinController.login()}"
                                                  oncomplete="handleLoginRequest(xhr, status, args)" />
                             </f:facet>  
                         </h:panelGrid>

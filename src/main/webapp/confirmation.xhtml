@@ -32,7 +32,7 @@
                     <h:form>
 
                         <h2>#{msg.confirmationOrder}</h2>
-                        <p:dataTable id="order" value="#{orderPizza.order.orderEntriesAsList}" var="orderEntry">
+                        <p:dataTable id="order" value="#{orderPizza.order.orderEntriesAsCollection}" var="orderEntry">
 
                             <p:column>
                                  <f:facet name="header">

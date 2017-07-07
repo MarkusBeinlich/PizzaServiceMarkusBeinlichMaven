@@ -52,6 +52,9 @@ public class OrderPizza implements Serializable {
     }
 
     public void save() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        order.setIpAddress(req.getLocalAddr());
+        order.setSessionId(req.getSession().getId());
         System.out.println("OrderPizza - save");
         System.out.println("OrderPizza.save: ip-" + order.getIpAddress() + " session: " + order.getSessionId());
         customer.store();
