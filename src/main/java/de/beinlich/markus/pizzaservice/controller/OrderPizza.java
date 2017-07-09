@@ -4,7 +4,9 @@ import de.beinlich.markus.pizzaservice.model.*;
 import de.beinlich.markus.pizzaservice.util.ActiveSessionsListener;
 import java.io.Serializable;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
@@ -12,6 +14,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
@@ -35,6 +41,9 @@ public class OrderPizza implements Serializable {
 
     @Inject
     private Testctrl testctrl;
+
+    @PersistenceUnit
+    private EntityManagerFactory emf;
 
     public OrderPizza() {
         customer = new Customer();
@@ -156,11 +165,24 @@ public class OrderPizza implements Serializable {
     }
 
     public Menu getMenu() {
-        return menu;
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Menu> query = em.createNamedQuery(Menu.findAll, Menu.class);
+        List<Menu> menus = query.getResultList();
+        return menus.get(0);
     }
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public void addMenu() {
+        EntityManager em = emf.createEntityManager();
+        em.persist(menu);
+    }
+    
+    public void initMenu() {
+        menu.getMenuItems().add(new MenuItem("Pizza1", "Salami, Tomaten, Mozarella", new BigDecimal(7.5)));
+        menu.getMenuItems().add(new MenuItem("Pizza2", "Salami, Schinken, Mozarella", new BigDecimal(8.5)));
     }
 
     public Boolean getSubmitted() {
@@ -175,6 +197,5 @@ public class OrderPizza implements Serializable {
         Collection<HttpSession> sessions = ActiveSessionsListener.getActiveSessions().values();
         return sessions;
     }
-
 
 }

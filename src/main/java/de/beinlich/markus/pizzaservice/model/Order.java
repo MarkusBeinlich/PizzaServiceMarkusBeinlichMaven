@@ -1,6 +1,5 @@
 package de.beinlich.markus.pizzaservice.model;
 
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -20,14 +19,22 @@ import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-public class Order implements Serializable{
+@Entity
+public class Order implements Serializable {
 
     private static final long serialVersionUID = 4994150745256346814L;
 
-    private Customer customer;
-    private Map<MenuItem, OrderEntry> orderEntries;
+    @GeneratedValue
+    @Id
     private Integer orderId;
+    private Customer customer;
+    @OneToMany(mappedBy = "order")
+    private Map<MenuItem, OrderEntry> orderEntries;
     private Date orderDate;
     private String sessionId;
     private String ipAddress;
@@ -87,17 +94,15 @@ public class Order implements Serializable{
 
             document.add(table);
 
-
             document.close();
 
             //for ( PrintService s : PrintServiceLookup.lookupPrintServices( null, null ) )System.out.println( s.getName() );
-
         } catch (DocumentException ex) {
             Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bos;
     }
-    
+
     public void store() {
         DaoOrder daoOrder = new DaoOrder();
         DaoOrderEntry daoOrderEntry = new DaoOrderEntry();
@@ -110,7 +115,7 @@ public class Order implements Serializable{
     public void addOrderEntry(OrderEntry orderEntry) {
         orderEntries.put(orderEntry.getMenuItem(), orderEntry);
     }
-    
+
     public void removeOrderEntry(OrderEntry orderEntry) {
         orderEntries.remove(orderEntry.getMenuItem());
     }

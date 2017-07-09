@@ -3,11 +3,21 @@ package de.beinlich.markus.pizzaservice.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+@Entity
 public class MenuItem implements Serializable {
 
     private static final long serialVersionUID = 4017341755034502641L;
+    @GeneratedValue
+    @Id
     private Integer menuItemId;
+    @ManyToOne
+    private Menu menu;
     private String name;
     private String description;
     private BigDecimal price;
@@ -61,6 +71,14 @@ public class MenuItem implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
     
 }

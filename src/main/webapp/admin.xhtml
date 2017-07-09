@@ -30,17 +30,18 @@
                                     <f:convertDateTime type="both" />
                                 </h:outputText>
                             </p:column>
-                             <p:column>
+                            <p:column>
                                 <f:facet name="header">
                                     <h:outputLabel value="Last Accessed Time"/>
                                 </f:facet>
-                                 <h:outputText value="#{sess.lastAccessedTime}">
+                                <h:outputText value="#{sess.lastAccessedTime}">
                                     <f:convertDateTime type="both" />
                                 </h:outputText>
                             </p:column>
 
                         </p:dataTable>
-
+                        <p:commandButton action="#{orderPizza.initMenu()}" 
+                                         value="Menu initialisieren" />
                     </h:form>
                 </ui:define>
             </ui:composition>
