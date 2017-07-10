@@ -209,12 +209,15 @@ public class OrderPizza implements Serializable {
     }
 
     public String initMenu() {
+        menu.setMenuId(1);
         MenuItem menuItem = new MenuItem();
+        menuItem.setMenuItemId(11);
         menuItem.setName("Pizza1");
         menuItem.setDescription("Salami, Tomaten, Mozarella");
         menuItem.setPrice(new BigDecimal(7.5));
         menu.getMenuItems().add(menuItem);
          MenuItem menuItem2 = new MenuItem();
+         menuItem2.setMenuItemId(12);
         menuItem2.setName("Pizza2");
         menuItem2.setDescription("Salami, Schinken, Mozarella");
         menuItem2.setPrice(new BigDecimal(8.5));
