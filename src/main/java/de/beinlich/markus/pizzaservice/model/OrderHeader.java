@@ -23,9 +23,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class Order implements Serializable {
+public class OrderHeader implements Serializable {
 
     private static final long serialVersionUID = 4994150745256346814L;
 
@@ -33,13 +35,14 @@ public class Order implements Serializable {
     @Id
     private Integer orderId;
     private Customer customer;
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orderHeader")
     private Map<MenuItem, OrderEntry> orderEntries;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
     private String sessionId;
     private String ipAddress;
 
-    public Order() {
+    public OrderHeader() {
         orderEntries = new HashMap<>();
     }
 
@@ -98,7 +101,7 @@ public class Order implements Serializable {
 
             //for ( PrintService s : PrintServiceLookup.lookupPrintServices( null, null ) )System.out.println( s.getName() );
         } catch (DocumentException ex) {
-            Logger.getLogger(Order.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderHeader.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bos;
     }

@@ -12,13 +12,13 @@ public class Invoice implements Serializable{
     private Customer customer;
     private List<OrderEntry> invoiceEntries;
     private BigDecimal invoiceAmount;
-    private Order order;
+    private OrderHeader order;
     private String invoiceId;
 
     public Invoice() {
     }
 
-    public Invoice(Customer customer, Order order) {
+    public Invoice(Customer customer, OrderHeader order) {
         this.customer = customer;
         this.order = order;
         this.invoiceAmount = order.getAmount();
@@ -52,11 +52,11 @@ public class Invoice implements Serializable{
         this.invoiceAmount = invoiceAmount;
     }
 
-    public Order getOrder() {
+    public OrderHeader getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(OrderHeader order) {
         this.order = order;
     }
 

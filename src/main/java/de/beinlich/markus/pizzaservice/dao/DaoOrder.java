@@ -1,6 +1,6 @@
 package de.beinlich.markus.pizzaservice.dao;
 
-import de.beinlich.markus.pizzaservice.model.Order;
+import de.beinlich.markus.pizzaservice.model.OrderHeader;
 import java.math.*;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class DaoOrder extends GConnection{
     
-     public Integer store(Order order) {
+     public Integer store(OrderHeader order) {
 
 	Integer autoKey=0;
         Connection con = null;

@@ -23,7 +23,7 @@ public class OrderEntry implements Serializable{
     private MenuItem menuItem;
     private int quantity;
     @ManyToOne
-    private Order order;
+    private OrderHeader orderHeader;
 
     public OrderEntry(MenuItem menuItem) {
         this.menuItem = menuItem;
@@ -61,12 +61,12 @@ public class OrderEntry implements Serializable{
         this.orderEntryId = orderEntryId;
     }
 
-    public Order getOrder() {
-        return order;
+    public OrderHeader getOrderHeader() {
+        return orderHeader;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderHeader(OrderHeader orderHeader) {
+        this.orderHeader = orderHeader;
     }
 
 }

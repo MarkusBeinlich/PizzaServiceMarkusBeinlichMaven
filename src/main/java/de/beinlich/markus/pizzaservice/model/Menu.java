@@ -3,14 +3,15 @@ package de.beinlich.markus.pizzaservice.model;
 import de.beinlich.markus.pizzaservice.dao.*;
 import java.io.*;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-@NamedQuery(name = Menu.findAll, query = "SELECT m FROM Menu m")
 @Entity
+@NamedQuery(name = Menu.findAll, query = "SELECT m FROM Menu m")
 public class Menu implements Serializable{
     private static final long serialVersionUID = 9220765761231182677L;
     public static final String findAll = "Menu.findAll";
@@ -18,7 +19,7 @@ public class Menu implements Serializable{
     @GeneratedValue
     @Id
     private Integer menuId;
-    @OneToMany(mappedBy = "menu")
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.PERSIST)
     private List<MenuItem> menuItems;
 
     public Menu() {

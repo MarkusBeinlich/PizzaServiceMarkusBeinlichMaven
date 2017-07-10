@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -20,6 +21,12 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -34,7 +41,7 @@ public class OrderPizza implements Serializable {
 
     private Customer customer;
     private Invoice invoice;
-    private Order order;
+    private OrderHeader order;
     private String time;
     private Menu menu;
     private Boolean submitted;
@@ -42,13 +49,16 @@ public class OrderPizza implements Serializable {
     @Inject
     private Testctrl testctrl;
 
-    @PersistenceUnit
+    @PersistenceUnit(unitName = "pizzajpa")
     private EntityManagerFactory emf;
+
+    @Resource
+    private UserTransaction ut;
 
     public OrderPizza() {
         customer = new Customer();
         invoice = new Invoice();
-        order = new Order();
+        order = new OrderHeader();
         menu = new Menu();
         submitted = false;
     }
@@ -130,12 +140,12 @@ public class OrderPizza implements Serializable {
         this.invoice = invoice;
     }
 
-    public Order getOrder() {
+    public OrderHeader getOrder() {
         System.out.println("getOrder");
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(OrderHeader order) {
         System.out.println("setOrder");
         this.order = order;
     }
@@ -176,13 +186,42 @@ public class OrderPizza implements Serializable {
     }
 
     public void addMenu() {
-        EntityManager em = emf.createEntityManager();
-        em.persist(menu);
+        try {
+            ut.begin();
+            EntityManager em = emf.createEntityManager();
+            em.persist(menu);
+            ut.commit();
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-    public void initMenu() {
-        menu.getMenuItems().add(new MenuItem("Pizza1", "Salami, Tomaten, Mozarella", new BigDecimal(7.5)));
-        menu.getMenuItems().add(new MenuItem("Pizza2", "Salami, Schinken, Mozarella", new BigDecimal(8.5)));
+
+    public String initMenu() {
+        MenuItem menuItem = new MenuItem();
+        menuItem.setName("Pizza1");
+        menuItem.setDescription("Salami, Tomaten, Mozarella");
+        menuItem.setPrice(new BigDecimal(7.5));
+        menu.getMenuItems().add(menuItem);
+         MenuItem menuItem2 = new MenuItem();
+        menuItem2.setName("Pizza2");
+        menuItem2.setDescription("Salami, Schinken, Mozarella");
+        menuItem2.setPrice(new BigDecimal(8.5));
+        menu.getMenuItems().add(menuItem2);
+        System.out.println("initMenu" + menu);
+        addMenu();
+        return ("toAdmin");
     }
 
     public Boolean getSubmitted() {
