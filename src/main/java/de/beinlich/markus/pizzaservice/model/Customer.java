@@ -9,8 +9,9 @@ import javax.persistence.Id;
 public class Customer implements Serializable {
 
     private static final long serialVersionUID = -565390959945252363L;
-    @GeneratedValue
+    
     @Id
+    @GeneratedValue
     private Integer customerId;
     private String firstName;
     private String lastName;

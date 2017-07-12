@@ -5,7 +5,6 @@ import de.beinlich.markus.pizzaservice.util.ActiveSessionsListener;
 import java.io.Serializable;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -72,14 +71,36 @@ public class OrderPizza implements Serializable {
     }
 
     public void save() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        order.setIpAddress(req.getLocalAddr());
-        order.setSessionId(req.getSession().getId());
-        System.out.println("OrderPizza - save");
-        System.out.println("OrderPizza.save: ip-" + order.getIpAddress() + " session: " + order.getSessionId());
-        customer.store();
-        order.setCustomer(customer);
-        order.store();
+        try {
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            order.setIpAddress(req.getLocalAddr());
+            order.setSessionId(req.getSession().getId());
+            System.out.println("OrderPizza - save");
+            System.out.println("OrderPizza.save: ip-" + order.getIpAddress() + " session: " + order.getSessionId());
+//            customer.store();
+            order.setCustomer(customer);
+//            order.store();
+            ut.begin();
+            EntityManager em
+                    = emf.createEntityManager();
+            em.persist(customer);
+            em.persist(order);
+            ut.commit();
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(OrderPizza.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void showPdf() {
@@ -178,11 +199,16 @@ public class OrderPizza implements Serializable {
     }
 
     public Menu getMenu() {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Menu> query = em.createNamedQuery(Menu.findAll, Menu.class);
-        List<Menu> menus = query.getResultList();
-        System.out.println("getMenu:" + menus.size() + "-" + menus.toString());
-        return menus.get(0);
+        if (menu.getMenuItems().isEmpty()) {
+            EntityManager em = emf.createEntityManager();
+            TypedQuery<Menu> query = em.createNamedQuery(Menu.findAll, Menu.class);
+            List<Menu> menus = query.getResultList();
+            System.out.println("getMenu1:" + menus.size() + "-" + menu.hashCode() + "-" + menus.get(0).getMenuItems().toString());
+            menu = menus.get(0);
+            return menu;
+        }
+        System.out.println("getMenu2:" + menu.toString());
+        return menu;
     }
 
     public void setMenu(Menu menu) {
@@ -220,7 +246,7 @@ public class OrderPizza implements Serializable {
         menuItem.setDescription("Salami, Tomaten, Mozarella");
         menuItem.setPrice(new BigDecimal(7.5));
         menu.getMenuItems().add(menuItem);
-         MenuItem menuItem2 = new MenuItem();
+        MenuItem menuItem2 = new MenuItem();
 
         menuItem2.setName("Pizza2");
         menuItem2.setDescription("Salami, Schinken, Mozarella");
@@ -243,18 +269,5 @@ public class OrderPizza implements Serializable {
         Collection<HttpSession> sessions = ActiveSessionsListener.getActiveSessions().values();
         return sessions;
     }
-    
-    	public List<MenuItem> findAll() {
-		try {
-			TypedQuery<MenuItem> query = 
-			emf.createEntityManager().
-			createNamedQuery(
-				"Item.findAll", MenuItem.class);
-			return query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<MenuItem>();
-	}
 
 }

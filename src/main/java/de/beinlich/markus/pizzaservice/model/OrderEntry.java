@@ -16,8 +16,9 @@ import javax.persistence.OneToOne;
 public class OrderEntry implements Serializable{
 
     private static final long serialVersionUID = -6948893238653679210L;
-    @GeneratedValue
+    
     @Id
+    @GeneratedValue
     private Integer orderEntryId;
     @OneToOne
     private MenuItem menuItem;

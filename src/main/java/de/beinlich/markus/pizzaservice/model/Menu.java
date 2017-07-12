@@ -55,4 +55,11 @@ public class Menu implements Serializable{
     public void setMenuId(Integer menuId) {
         this.menuId = menuId;
     }
+
+    @Override
+    public String toString() {
+        return "Menu{" + "menuId=" + menuId + ", menuItems=" + menuItems + '}';
+    }
+    
+    
 }

@@ -17,10 +17,12 @@ import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,11 +31,13 @@ public class OrderHeader implements Serializable {
 
     private static final long serialVersionUID = 4994150745256346814L;
 
-    @GeneratedValue
+    
     @Id
+    @GeneratedValue
     private Integer orderId;
+    @OneToOne
     private Customer customer;
-    @OneToMany(mappedBy = "orderHeader")
+    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.PERSIST)
     private Map<MenuItem, OrderEntry> orderEntries;
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
