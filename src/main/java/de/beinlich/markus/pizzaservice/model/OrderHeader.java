@@ -5,8 +5,6 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import de.beinlich.markus.pizzaservice.dao.DaoOrder;
-import de.beinlich.markus.pizzaservice.dao.DaoOrderEntry;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
@@ -107,12 +105,12 @@ public class OrderHeader implements Serializable {
     }
 
     public void store() {
-        DaoOrder daoOrder = new DaoOrder();
-        DaoOrderEntry daoOrderEntry = new DaoOrderEntry();
-        this.orderId = daoOrder.store(this);
-        for (Map.Entry<MenuItem, OrderEntry> orderEntry : orderEntries.entrySet()) {
-            daoOrderEntry.store(orderEntry.getValue(), orderId);
-        }
+//        DaoOrder daoOrder = new DaoOrder();
+//        DaoOrderEntry daoOrderEntry = new DaoOrderEntry();
+//        this.orderId = daoOrder.store(this);
+//        for (Map.Entry<MenuItem, OrderEntry> orderEntry : orderEntries.entrySet()) {
+//            daoOrderEntry.store(orderEntry.getValue(), orderId);
+//        }
     }
 
     public void addOrderEntry(OrderEntry orderEntry) {

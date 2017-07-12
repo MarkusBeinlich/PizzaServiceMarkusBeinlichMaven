@@ -5,6 +5,7 @@ import de.beinlich.markus.pizzaservice.util.ActiveSessionsListener;
 import java.io.Serializable;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -94,12 +95,14 @@ public class OrderPizza implements Serializable {
     }
 
     public void addOrderEntry() {
-        System.out.println("addOrderEntry");
+        System.out.println("addOrderEntry" + menu.getMenuItems().size());
         for (MenuItem menuItem : menu.getMenuItems()) {
             if (menuItem.getQuantity() != 0) {
                 order.addOrderEntry(new OrderEntry(menuItem));
+                System.out.println("MenuItem <> 0:" + menuItem.getName());
             } else {
                 order.removeOrderEntry(new OrderEntry(menuItem));
+                System.out.println("MenuItem = 0:" + menuItem.getName() + " - " + menuItem.getQuantity());
             }
         }
     }
@@ -178,6 +181,7 @@ public class OrderPizza implements Serializable {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Menu> query = em.createNamedQuery(Menu.findAll, Menu.class);
         List<Menu> menus = query.getResultList();
+        System.out.println("getMenu:" + menus.size() + "-" + menus.toString());
         return menus.get(0);
     }
 
@@ -209,15 +213,15 @@ public class OrderPizza implements Serializable {
     }
 
     public String initMenu() {
-        menu.setMenuId(1);
+        menu = new Menu();
         MenuItem menuItem = new MenuItem();
-        menuItem.setMenuItemId(11);
+
         menuItem.setName("Pizza1");
         menuItem.setDescription("Salami, Tomaten, Mozarella");
         menuItem.setPrice(new BigDecimal(7.5));
         menu.getMenuItems().add(menuItem);
          MenuItem menuItem2 = new MenuItem();
-         menuItem2.setMenuItemId(12);
+
         menuItem2.setName("Pizza2");
         menuItem2.setDescription("Salami, Schinken, Mozarella");
         menuItem2.setPrice(new BigDecimal(8.5));
@@ -239,5 +243,18 @@ public class OrderPizza implements Serializable {
         Collection<HttpSession> sessions = ActiveSessionsListener.getActiveSessions().values();
         return sessions;
     }
+    
+    	public List<MenuItem> findAll() {
+		try {
+			TypedQuery<MenuItem> query = 
+			emf.createEntityManager().
+			createNamedQuery(
+				"Item.findAll", MenuItem.class);
+			return query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<MenuItem>();
+	}
 
 }

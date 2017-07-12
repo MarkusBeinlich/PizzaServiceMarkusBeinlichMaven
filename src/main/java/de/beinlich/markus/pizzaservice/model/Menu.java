@@ -1,7 +1,7 @@
 package de.beinlich.markus.pizzaservice.model;
 
-import de.beinlich.markus.pizzaservice.dao.*;
-import java.io.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,16 +16,17 @@ public class Menu implements Serializable{
     private static final long serialVersionUID = 9220765761231182677L;
     public static final String findAll = "Menu.findAll";
     
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private Integer menuId;
     @OneToMany(mappedBy = "menu", cascade = CascadeType.PERSIST)
     private List<MenuItem> menuItems;
 
     public Menu() {
         if (menuItems == null) {
-            DaoMenu daoMenu = new DaoMenu();
-            menuItems = daoMenu.getMenu();
+            menuItems = new ArrayList<>();
+//            DaoMenu daoMenu = new DaoMenu();
+//            menuItems = daoMenu.getMenu();
         }
     }
 

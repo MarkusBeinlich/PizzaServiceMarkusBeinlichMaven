@@ -1,20 +1,23 @@
-
 package de.beinlich.markus.pizzaservice.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name = MenuItem.findAll, query = "SELECT m FROM MenuItem m")
 public class MenuItem implements Serializable {
 
     private static final long serialVersionUID = 4017341755034502641L;
-    @GeneratedValue
+    
+    public static final String findAll = "MenuItem.findAll";
+    
     @Id
+    @GeneratedValue
     private Integer menuItemId;
     @ManyToOne
     private Menu menu;
@@ -23,10 +26,9 @@ public class MenuItem implements Serializable {
     private BigDecimal price;
     private int quantity;
 
-    
     public MenuItem() {
     }
-    
+
     public MenuItem(String name, String description, BigDecimal price) {
         this.name = name;
         this.description = description;
@@ -40,7 +42,7 @@ public class MenuItem implements Serializable {
     public void setMenuItemId(Integer menuItemId) {
         this.menuItemId = menuItemId;
     }
-      
+
     public String getName() {
         return name;
     }
@@ -80,5 +82,5 @@ public class MenuItem implements Serializable {
     public void setMenu(Menu menu) {
         this.menu = menu;
     }
-    
+
 }

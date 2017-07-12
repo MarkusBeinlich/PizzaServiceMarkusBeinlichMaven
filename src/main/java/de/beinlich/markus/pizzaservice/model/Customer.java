@@ -1,6 +1,5 @@
 package de.beinlich.markus.pizzaservice.model;
 
-import de.beinlich.markus.pizzaservice.dao.DaoCustomer;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,8 +24,8 @@ public class Customer implements Serializable {
     }
     
     public void store() {
-        DaoCustomer daoCustomer = new DaoCustomer();
-        this.customerId = daoCustomer.store(this);
+//        DaoCustomer daoCustomer = new DaoCustomer();
+//        this.customerId = daoCustomer.store(this);
     }
     
     public Integer getCustomerId() {
