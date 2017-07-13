@@ -5,6 +5,7 @@ import de.beinlich.markus.pizzaservice.util.ActiveSessionsListener;
 import java.io.Serializable;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -79,6 +80,7 @@ public class OrderPizza implements Serializable {
             System.out.println("OrderPizza.save: ip-" + order.getIpAddress() + " session: " + order.getSessionId());
 //            customer.store();
             order.setCustomer(customer);
+            order.setOrderDate(LocalDateTime.now());
 //            order.store();
             ut.begin();
             EntityManager em
@@ -117,14 +119,12 @@ public class OrderPizza implements Serializable {
 
     public void addOrderEntry() {
         System.out.println("addOrderEntry" + menu.getMenuItems().size());
+        order.getOrderEntries().clear();
         for (MenuItem menuItem : menu.getMenuItems()) {
             if (menuItem.getQuantity() != 0) {
                 order.addOrderEntry(new OrderEntry(menuItem));
                 System.out.println("MenuItem <> 0:" + menuItem.getName());
-            } else {
-                order.removeOrderEntry(new OrderEntry(menuItem));
-                System.out.println("MenuItem = 0:" + menuItem.getName() + " - " + menuItem.getQuantity());
-            }
+            } 
         }
     }
 
@@ -241,17 +241,28 @@ public class OrderPizza implements Serializable {
     public String initMenu() {
         menu = new Menu();
         MenuItem menuItem = new MenuItem();
-
         menuItem.setName("Pizza1");
         menuItem.setDescription("Salami, Tomaten, Mozarella");
         menuItem.setPrice(new BigDecimal(7.5));
+        menuItem.setMenu(menu);
         menu.getMenuItems().add(menuItem);
+        
+        
         MenuItem menuItem2 = new MenuItem();
-
         menuItem2.setName("Pizza2");
         menuItem2.setDescription("Salami, Schinken, Mozarella");
         menuItem2.setPrice(new BigDecimal(8.5));
+        menuItem2.setMenu(menu);
         menu.getMenuItems().add(menuItem2);
+        
+        MenuItem menuItem3 = new MenuItem();
+
+        menuItem3.setName("Pizza3");
+        menuItem3.setDescription("Tomaten, Mozarella");
+        menuItem3.setPrice(new BigDecimal(4.5));
+        menuItem3.setMenu(menu);
+        menu.getMenuItems().add(menuItem3);
+        
         System.out.println("initMenu" + menu);
         addMenu();
         return ("toAdmin");

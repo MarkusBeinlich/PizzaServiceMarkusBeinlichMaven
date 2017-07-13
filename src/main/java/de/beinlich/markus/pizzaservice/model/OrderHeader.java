@@ -9,12 +9,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Date;
 
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.CascadeType;
@@ -23,8 +23,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class OrderHeader implements Serializable {
@@ -38,18 +36,18 @@ public class OrderHeader implements Serializable {
     @OneToOne
     private Customer customer;
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.PERSIST)
-    private Map<MenuItem, OrderEntry> orderEntries;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date orderDate;
+    private List<OrderEntry> orderEntries;
+
+    private LocalDateTime orderDate;
     private String sessionId;
     private String ipAddress;
 
     public OrderHeader() {
-        orderEntries = new HashMap<>();
+        orderEntries = new ArrayList<>();
     }
 
     public Collection<OrderEntry> getOrderEntriesAsCollection() {
-        return orderEntries.values();
+        return orderEntries;
     }
 
     public ByteArrayOutputStream createPdf() {
@@ -76,11 +74,11 @@ public class OrderHeader implements Serializable {
             table1.addCell("Beschreibung");
             table1.addCell("Menge");
             table1.addCell("Betrag");
-            for (Map.Entry<MenuItem, OrderEntry> orderEntry : orderEntries.entrySet()) {
-                table1.addCell(orderEntry.getValue().getMenuItem().getName());
-                table1.addCell(orderEntry.getValue().getMenuItem().getDescription());
-                table1.addCell(nfInteger.format(orderEntry.getValue().getQuantity()));
-                table1.addCell(nfCurr.format(orderEntry.getValue().getPrice()));
+            for (OrderEntry orderEntry : orderEntries) {
+                table1.addCell(orderEntry.getName());
+                table1.addCell(orderEntry.getDescription());
+                table1.addCell(nfInteger.format(orderEntry.getQuantity()));
+                table1.addCell(nfCurr.format(orderEntry.getAmount()));
             }
 
             document.add(table1);
@@ -118,25 +116,20 @@ public class OrderHeader implements Serializable {
     }
 
     public void addOrderEntry(OrderEntry orderEntry) {
-        orderEntries.put(orderEntry.getMenuItem(), orderEntry);
+        orderEntry.setOrderHeader(this);
+        orderEntries.add(orderEntry);
     }
 
     public void removeOrderEntry(OrderEntry orderEntry) {
-        orderEntries.remove(orderEntry.getMenuItem());
+        orderEntries.remove(orderEntry);
     }
 
-    public int getOrderEntryQuantity(MenuItem menuItem) {
-        if (orderEntries.containsKey(menuItem)) {
-            return orderEntries.get(menuItem).getQuantity();
-        }
-        return 0;
-    }
 
     public BigDecimal getAmount() {
         BigDecimal amount;
         amount = BigDecimal.ZERO;
-        for (Map.Entry<MenuItem, OrderEntry> orderEntry : orderEntries.entrySet()) {
-            amount = amount.add(orderEntry.getValue().getPrice());
+        for (OrderEntry orderEntry : orderEntries) {
+            amount = amount.add(orderEntry.getAmount());
         }
         return amount;
     }
@@ -149,13 +142,7 @@ public class OrderHeader implements Serializable {
         this.customer = customer;
     }
 
-    public Map<MenuItem, OrderEntry> getOrderEntries() {
-        return orderEntries;
-    }
 
-    public void setOrderEntries(Map<MenuItem, OrderEntry> orderEntries) {
-        this.orderEntries = orderEntries;
-    }
 
     public Integer getOrderId() {
         return orderId;
@@ -165,11 +152,11 @@ public class OrderHeader implements Serializable {
         this.orderId = orderId;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -187,6 +174,14 @@ public class OrderHeader implements Serializable {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public List<OrderEntry> getOrderEntries() {
+        return orderEntries;
+    }
+
+    public void setOrderEntries(List<OrderEntry> orderEntries) {
+        this.orderEntries = orderEntries;
     }
 
 }

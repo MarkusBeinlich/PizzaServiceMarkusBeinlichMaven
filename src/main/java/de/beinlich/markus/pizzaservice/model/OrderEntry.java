@@ -20,34 +20,30 @@ public class OrderEntry implements Serializable{
     @Id
     @GeneratedValue
     private Integer orderEntryId;
-    @OneToOne
-    private MenuItem menuItem;
+    private String name;
+    private String description;
+    private BigDecimal price;
     private int quantity;
     @ManyToOne
     private OrderHeader orderHeader;
 
     public OrderEntry(MenuItem menuItem) {
-        this.menuItem = menuItem;
+        this.name = menuItem.getName();
+        this.description = menuItem.getDescription();
+        this.price = menuItem.getPrice();
         this.quantity = menuItem.getQuantity();
     }
 
     public OrderEntry() {
     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
-    }
-
-    public void setMenuItem(MenuItem menuItem) {
-        this.menuItem = menuItem;
-    }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public BigDecimal getPrice() {
-        return menuItem.getPrice().multiply(new BigDecimal(quantity));
+    public BigDecimal getAmount() {
+        return price.multiply(new BigDecimal(quantity));
     }
 
     public void setQuantity(int quantity) {
@@ -68,6 +64,30 @@ public class OrderEntry implements Serializable{
 
     public void setOrderHeader(OrderHeader orderHeader) {
         this.orderHeader = orderHeader;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
 }

@@ -23,7 +23,7 @@ public class Invoice implements Serializable{
         this.order = order;
         this.invoiceAmount = order.getAmount();
         //eigentlich wäre hier eine tiefe Kopie angebracht. 
-        this.invoiceEntries = new ArrayList(order.getOrderEntries().values());
+        this.invoiceEntries = new ArrayList(order.getOrderEntries());
     }
 
     

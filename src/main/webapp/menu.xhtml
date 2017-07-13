@@ -54,13 +54,13 @@
                                 <f:facet name="header">
                                     <h:outputLabel value="#{msg.menuItemName}"/>
                                 </f:facet>
-                                <h:outputText value="#{orderEntry.menuItem.name}"/>
+                                <h:outputText value="#{orderEntry.name}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputLabel value="#{msg.menuItemDescription}"/>
                                 </f:facet>
-                                <h:outputText value="#{orderEntry.menuItem.description}"/>
+                                <h:outputText value="#{orderEntry.description}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
@@ -72,7 +72,7 @@
                                 <f:facet name="header">
                                     <h:outputLabel value="#{msg.menuItemPrice}"/>
                                 </f:facet>
-                                <h:outputText value="#{orderEntry.price}">
+                                <h:outputText value="#{orderEntry.amount}">
                                     <f:convertNumber type="currency" currencySymbol="€"/>
                                 </h:outputText>
                                 <f:facet name="footer">
